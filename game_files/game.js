@@ -62,7 +62,7 @@ function updateGameState (newState, notifyClients) {
   }
   console.info(log);
 
-  // If requested, inform clients qbout the chsnge
+  // If requested, inform clients about the change
   if (notifyClients)
     io.sockets.emit('update_game_state', _gameState);
 }
@@ -82,6 +82,9 @@ function createNewGame () {
 
   // Notify players of the new game state
   updateGameState(enums.ServerState.WaitingForPlayers, true);
+
+  // After amount of time, start a new game
+  setTimeout(startGameLoop, Const.TIME_TO_START_NEW_GAME);
 };
 
 function gameOver() {
@@ -103,6 +106,8 @@ function gameOver() {
 };
 
 function startGameLoop () {
+  _gameStartTimeout = null;
+
   // Change server state
   updateGameState(enums.ServerState.OnGame, true);
 
@@ -157,12 +162,13 @@ exports.startServer = function () {
   });
 
   _gameState = enums.ServerState.WaitingForPlayers;
+  _gameStartTimeout = null;
   
   // Create playersManager instance and register events
   _playersManager = new PlayersManager();
-  _playersManager.on('players-ready', function () {
+  /*_playersManager.on('players-ready', function () {
     startGameLoop();
-  });
+  });*/ // Note SA: Now starting after set amount of time
 
   // Create pipe manager and bind event
   _pipeManager = new PipeManager();
@@ -183,6 +189,11 @@ exports.startServer = function () {
         _playersManager.removePlayer(player);
         socket.broadcast.emit('player_disconnect', player.getPlayerObject());
         player = null;
+
+        if (_playersManager.getNumberOfPlayers() <= 0 && _gameStartTimeout != null) {
+           clearTimeout(_gameStartTimeout);
+           _gameStartTimeout = null;
+        }
       });
     });
     socket.on('say_hi', function (nick, fn) {
@@ -192,6 +203,10 @@ exports.startServer = function () {
 
     // Remember PlayerInstance and push it to the player list
     socket.set('PlayerInstance', player);
+
+    if (_gamestate == enums.ServerState.WaitingForPlayers && _playersManager.getNumberOfPlayers() > 0 && _gameStartTimeout == null) {
+      _gameStartTimeout = setTimeout(startGameLoop, Const.TIME_TO_START_NEW_GAME);
+    }
   });
   
 

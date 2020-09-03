@@ -12,6 +12,7 @@ var constant = {
   FLOOR_POS_Y:              672,
   LEVEL_SPEED:              0.3,
   TIME_BETWEEN_GAMES:       5000,
+  TIME_TO_START_NEW_GAME:   15000,
 
   BIRD_WIDTH:               42,
   BIRD_HEIGHT:              30,

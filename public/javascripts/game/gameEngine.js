@@ -261,6 +261,24 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
       case enumState.WaitingRoom:
         strLog += 'waiting in lobby';
         _isCurrentPlayerReady = false;
+
+        _game_start_time = Const.TIME_TO_START_NEW_GAME / 1000;
+        // Display the remaining time on the top bar
+        infoPanel(true, 'Game starts in <strong>' + _game_start_time + 's</strong>...');
+        _gameStartTimer = window.setInterval(function() {
+            // Set seconds left
+            infoPanel(true, 'Game starts in <strong>' + (--_game_start_time) + 's</strong>...');
+            
+            // Stop timer if time is running up
+            if (_game_start_time <= 0) {
+              // Reset timer and remove top bar
+              window.clearInterval(_gameStartTimer);
+              infoPanel(false);
+            }
+          },
+          1000
+        );
+
         lobbyLoop();
         break;
 
@@ -296,7 +314,7 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         break;
       
       default:
-        console.log('Unknew game state [' + _gameState + ']');
+        console.log('Unknown game state [' + _gameState + ']');
         strLog += 'undefined state';
         break;
     }
