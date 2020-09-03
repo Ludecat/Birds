@@ -43,6 +43,11 @@ function playerLog (socket, nick) {
   });
 }
 
+function forceStartGame() {
+  _playersManager.readyAllPlayers();
+  startGameLoop();
+}
+
 function updateGameState (newState, notifyClients) {
   var log = '\t[SERVER] Game state changed ! Server is now ';
   
@@ -84,7 +89,7 @@ function createNewGame () {
   updateGameState(enums.ServerState.WaitingForPlayers, true);
 
   // After amount of time, start a new game
-  setTimeout(startGameLoop, Const.TIME_TO_START_NEW_GAME);
+  _gameStartTimeout = setTimeout(forceStartGame, Const.TIME_TO_START_NEW_GAME);
 };
 
 function gameOver() {
@@ -204,8 +209,8 @@ exports.startServer = function () {
     // Remember PlayerInstance and push it to the player list
     socket.set('PlayerInstance', player);
 
-    if (_gamestate == enums.ServerState.WaitingForPlayers && _playersManager.getNumberOfPlayers() > 0 && _gameStartTimeout == null) {
-      _gameStartTimeout = setTimeout(startGameLoop, Const.TIME_TO_START_NEW_GAME);
+    if (_gameState == enums.ServerState.WaitingForPlayers && _playersManager.getNumberOfPlayers() > 0 && _gameStartTimeout == null) {
+      _gameStartTimeout = setTimeout(forceStartGame, Const.TIME_TO_START_NEW_GAME);
     }
   });
   

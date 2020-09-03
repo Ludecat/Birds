@@ -45,6 +45,12 @@ PlayersManager.prototype.removePlayer = function (player) {
   }
 }
 
+PlayersManager.prototype.readyAllPlayers = function () {
+  for (i = 0; i < _playersList.length; i++) {
+    _playersList[i].setReadyState(true);
+  }
+}
+
 PlayersManager.prototype.changeLobbyState = function (player, isReady) {
   var pos = _playersList.indexOf(player),
       nbPlayers = _playersList.length,
