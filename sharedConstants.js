@@ -8,13 +8,14 @@ var constant = {
     SOCKET_PORT_PUBLIC: runLocal ? 3001 : 443,
     SOCKET_ADDR: runLocal ? 'http://localhost' : 'https://io-games.lude.cat',
     SOCKET_PATH: runLocal ? '' : '/flappybird',
+    LOCALHOST: runLocal,
 
     SCREEN_WIDTH: 900,
     SCREEN_HEIGHT: 768,
     FLOOR_POS_Y: 672,
     LEVEL_SPEED: 0.3,
     TIME_BETWEEN_GAMES: 5000,
-    TIME_TO_START_NEW_GAME: 15000,
+    TIME_TO_START_NEW_GAME: 5000,
 
     BIRD_WIDTH: 42,
     BIRD_HEIGHT: 30,
@@ -24,7 +25,13 @@ var constant = {
     DISTANCE_BETWEEN_PIPES: 380,
     MIN_PIPE_HEIGHT: 60,
     MAX_PIPE_HEIGHT: 630,
-    HEIGHT_BETWEEN_PIPES: 200 // 150
+    HEIGHT_BETWEEN_PIPES: 200, // 150
+    
+    SPREADSHEET_SYNC_ENABLED: !runLocal,
+    SPREADSHEET_ID: '1TwSQAIEH2RY4TfgcmipEDBjY2NRSBUBIDLPxpqo6hww',
+    SPREADSHEET_TITLE: 'Flappybird Scoreboard',
+    SPREADSHEET_CRONTIMER: '* * * * *',
+    TOKEN_PATH: 'token.json'
 };
 
 // To be use by the server part, we have to provide the object with exports
