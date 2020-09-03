@@ -1,4 +1,4 @@
-const runLocal = true; // do not commit while true!!!
+const runLocal = false; // do not commit while true!!!
 
 // Define all constants usefull by the server and the client
 var constant = {
