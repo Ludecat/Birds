@@ -15,7 +15,7 @@ Multiplayer clone of flappy bird powered by node.js !
 
 4. [Optional] To play on different PC, you must change the websocket address for your local IP. To do it, update `SOCKET_ADDR` in the file *sharedConstants.js*
 
-5. Launch the server with `node server.js`
+5. Launch the server with `npm run start` or local: `npm run start-local`
 
 6. Open your browser and navigate to `http://yourserver:port/birds` (by default `http://localhost:4242/birds`)
 

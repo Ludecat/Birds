@@ -9,5 +9,16 @@ exports.index = function(req, res){
 };
 
 exports.birds = function(req, res){
-    res.render('birds', { title: 'Birds.js', wsAddress: Const.SOCKET_ADDR + ':' + Const.SOCKET_PORT_PUBLIC + Const.SOCKET_PATH});
+    if(Const.RUN_LOCAL) {
+        res.render('birds', {
+            title: 'Birds.js',
+            wsAddress: Const.SOCKET_ADDR + ':' + Const.SOCKET_PORT
+        });
+    }
+    else {
+        res.render('birds', {
+            title: 'Birds.js',
+            wsAddress: Const.SOCKET_ADDR + ':' + Const.SOCKET_PORT_PUBLIC + Const.SOCKET_PATH
+        });
+    }
 };
