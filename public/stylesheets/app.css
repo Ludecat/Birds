@@ -215,7 +215,7 @@ canvas {
 
 input[type="text"] {
 	display: block;
-	width: 160px;
+	/* width: 160px; */
 	border: 0;
 	margin: auto;
 	
