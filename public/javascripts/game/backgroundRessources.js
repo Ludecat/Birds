@@ -30,7 +30,7 @@ define(['../../sharedConstants'], function (Const) {
         nightSrc: 'images/night-trees.png',
         width: 300,
         height: 216,
-        posY: 456,
+        posY: 480, //456
         speed: Const.LEVEL_SPEED
       }
     ]);
