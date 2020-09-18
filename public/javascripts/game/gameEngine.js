@@ -180,6 +180,9 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         _socket.on('ranking', function (score) {
             displayRanking(score);
         });
+        _socket.on('game_will_start', function () {
+            displayGameStarts();
+        });
 
         // Send nickname to the server
         console.log('Send nickname ' + nick);
@@ -199,11 +202,29 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
             }
         });
 
+        _isAltDown = false;
+        _isCtrlDown = false;
         // Get input
         if (_isTouchDevice == false) {
             document.addEventListener('keydown', function (event) {
-                if (event.keyCode == 32) {
+                if (event.keyCode == 32) { // Space
                     inputsManager();
+                } else if (event.keyCode == 17) { // Ctrl
+                    _isAltDown = true;
+                } else if (event.keyCode == 18) { // Alt
+                    _isCtrlDown = true;
+                }
+                if (event.keyCode == 83) { // S
+                    if (_isAltDown && _isCtrlDown) {
+                        startGameInput();
+                    }
+                }
+            });
+            document.addEventListener('keyup', function (event) {
+                if (event.keyCode == 17) { // Ctrl
+                    _isAltDown = false;
+                } else if (event.keyCode == 18) { // Alt
+                    _isCtrlDown = false;
                 }
             });
         } else {
@@ -263,6 +284,25 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         _isNight = false;
     }
 
+    function displayGameStarts () {
+        _game_start_time = Const.TIME_TO_START_NEW_GAME / 1000;
+        // Display the remaining time on the top bar
+        infoPanel(true, 'Game starts in <strong>' + _game_start_time + 's</strong>...');
+        _gameStartTimer = window.setInterval(function() {
+            // Set seconds left
+            infoPanel(true, 'Game starts in <strong>' + (--_game_start_time) + 's</strong>...');
+    
+            // Stop timer if time is running up
+            if (_game_start_time <= 0) {
+              // Reset timer and remove top bar
+              window.clearInterval(_gameStartTimer);
+              infoPanel(false);
+            }
+          },
+          1000
+        );
+    }
+
     function changeGameState(gameState) {
         var strLog = 'Server just change state to ';
 
@@ -272,23 +312,6 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
             case enumState.WaitingRoom:
                 strLog += 'waiting in lobby';
                 _isCurrentPlayerReady = false;
-
-                _game_start_time = Const.TIME_TO_START_NEW_GAME / 1000;
-                // Display the remaining time on the top bar
-                infoPanel(true, 'Game starts in <strong>' + _game_start_time + 's</strong>...');
-                _gameStartTimer = window.setInterval(function () {
-                        // Set seconds left
-                        infoPanel(true, 'Game starts in <strong>' + (--_game_start_time) + 's</strong>...');
-
-                        // Stop timer if time is running up
-                        if (_game_start_time <= 0) {
-                            // Reset timer and remove top bar
-                            window.clearInterval(_gameStartTimer);
-                            infoPanel(false);
-                        }
-                    },
-                    1000
-                );
 
                 lobbyLoop();
                 break;
@@ -348,6 +371,12 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         }
     }
 
+    function startGameInput () {
+        if (_gameState == enumState.WaitingRoom) {
+          _socket.emit('force_start_game');
+        }
+    }
+
     function showHideMenu(panelName, isShow) {
         var panel = document.getElementById(panelName),
             currentOverlayPanel = document.querySelector('.overlay');
@@ -403,5 +432,4 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         console.log('Ressources loaded, connect to server...');
         startClient();
     });
-
 });

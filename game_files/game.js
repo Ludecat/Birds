@@ -32,6 +32,12 @@ function playerLog(socket, nick) {
             socket.on('player_jump', function () {
                 player.jump();
             });
+            socket.on('force_start_game', function () {
+              if (_gameStartTimeout == null) {
+                _gameStartTimeout = setTimeout(forceStartGame, Const.TIME_TO_START_NEW_GAME);
+                socket.emit('game_will_start');
+              }
+            });
 
             // Set player's nickname and prepare him for the next game
             _playersManager.prepareNewPlayer(player, nick);
@@ -83,14 +89,10 @@ function createNewGame() {
     players = _playersManager.resetPlayersForNewGame();
     for (i = 0; i < players.length; i++) {
         io.sockets.emit('player_ready_state', players[i]);
-    }
-    ;
+    };
 
     // Notify players of the new game state
     updateGameState(enums.ServerState.WaitingForPlayers, true);
-
-    // After amount of time, start a new game
-    _gameStartTimeout = setTimeout(forceStartGame, Const.TIME_TO_START_NEW_GAME);
 };
 
 function gameOver() {
@@ -197,11 +199,6 @@ exports.startServer = function () {
                 _playersManager.removePlayer(player);
                 socket.broadcast.emit('player_disconnect', player.getPlayerObject());
                 player = null;
-
-                if (_playersManager.getNumberOfPlayers() <= 0 && _gameStartTimeout != null) {
-                    clearTimeout(_gameStartTimeout);
-                    _gameStartTimeout = null;
-                }
             });
         });
         socket.on('say_hi', function (nick, fn) {
@@ -211,10 +208,6 @@ exports.startServer = function () {
 
         // Remember PlayerInstance and push it to the player list
         socket.set('PlayerInstance', player);
-
-        if (_gameState === enums.ServerState.WaitingForPlayers && _playersManager.getNumberOfPlayers() > 0 && _gameStartTimeout == null) {
-            _gameStartTimeout = setTimeout(forceStartGame, Const.TIME_TO_START_NEW_GAME);
-        }
     });
 
 
