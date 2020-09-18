@@ -17,9 +17,9 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
   // Birds sprites
   var BIRDS_SPRITES = [
     'images/clumsy.png',
-    'images/clumsy-blue.png',
-    'images/clumsy-red.png',
-    'images/clumsy-multi.png'
+    'images/clumsy-2.png',
+    'images/clumsy-3.png',
+    'images/clumsy-4.png'
   ];
 
   var that = {},
