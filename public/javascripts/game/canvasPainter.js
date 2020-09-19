@@ -16,10 +16,16 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
 
   // Birds sprites
   var BIRDS_SPRITES = [
-    'images/clumsy.png',
-    'images/clumsy-2.png',
-    'images/clumsy-3.png',
-    'images/clumsy-4.png'
+    'images/uglyflyingcat_gelb.png',
+    'images/uglyflyingcat_babykotzgruen.png',
+    'images/uglyflyingcat_dunkelblau.png',
+    'images/uglyflyingcat_gruen.png',
+    'images/uglyflyingcat_hellblau.png',
+    'images/uglyflyingcat_orange.png',
+    'images/uglyflyingcat_pink.png',
+    'images/uglyflyingcat_rot.png',
+    'images/uglyflyingcat_türkis.png',
+    'images/uglyflyingcat_violet.png',
   ];
 
   var that = {},
