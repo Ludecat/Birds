@@ -2,11 +2,11 @@ var enums = require('./enums'),
     Const = require('../sharedConstants').constant;
 
 // Defines
-var MAX_BIRDS_IN_A_ROW = 3;
-var START_BIRD_POS_X = 100;
-var SPACE_BETWEEN_BIRDS_X = 120;
-var START_BIRD_POS_Y = 100;
-var SPACE_BETWEEN_BIRDS_Y = 100;
+var MAX_BIRDS_IN_A_ROW = 10;
+var START_BIRD_POS_X = 60;
+var SPACE_BETWEEN_BIRDS_X = 40;
+var START_BIRD_POS_Y = 80;
+var SPACE_BETWEEN_BIRDS_Y = 40;
 var GRAVITY_SPEED = 0.05;
 var JUMP_SPEED = -0.6;
 var MAX_ROTATION = -10;
@@ -40,6 +40,13 @@ Player.prototype.update = function (timeLapse) {
         // calc now Y pos
         this._speedY += GRAVITY_SPEED;
         this._playerTinyObject.posY += Math.round(timeLapse * this._speedY);
+        
+        if(Const.BOT_DEBUG){ // TODO: ATTENTION!!!!!!
+            if(this._playerTinyObject.nick.includes("Bot"))
+            {
+                this._speedY = 0;
+            }
+        }
 
         // Calc rotation
         this._playerTinyObject.rotation += Math.round(this._speedY * ROTATION_SPEED);

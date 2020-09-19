@@ -9,6 +9,7 @@ var constant = {
     SOCKET_ADDR: runLocal ? 'http://localhost' : 'https://io-games.lude.cat',
     SOCKET_PATH: runLocal ? '' : '/flappybird',
     LOCALHOST: runLocal,
+    BOT_DEBUG: true,
 
     SCREEN_WIDTH: 900,
     SCREEN_HEIGHT: 768,
@@ -23,7 +24,8 @@ var constant = {
 
     BIRD_WIDTH: 42,
     BIRD_HEIGHT: 30,
-
+    BIRD_ALPHA: 0.2,
+    
     // Pipe constants
     PIPE_WIDTH: 100,
     DISTANCE_BETWEEN_PIPES: 380,
@@ -36,7 +38,7 @@ var constant = {
     SPREADSHEET_SYNC_ENABLED: !runLocal,
     SPREADSHEET_ID: '1TwSQAIEH2RY4TfgcmipEDBjY2NRSBUBIDLPxpqo6hww',
     SPREADSHEET_TITLE: 'Flappybird Scoreboard',
-    SPREADSHEET_CRONTIMER: '* * * * *',
+    SPREADSHEET_CRONTIMER: '1 * * * *',
     TOKEN_PATH: 'token.json'
 };
 
