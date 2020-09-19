@@ -35,7 +35,7 @@ function playerLog(socket, nick) {
             socket.on('force_start_game', function () {
               if (_gameStartTimeout == null) {
                 _gameStartTimeout = setTimeout(forceStartGame, Const.TIME_TO_START_NEW_GAME);
-                socket.emit('game_will_start');
+                io.sockets.emit('game_will_start');
               }
             });
 
