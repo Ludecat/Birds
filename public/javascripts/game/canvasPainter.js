@@ -35,6 +35,7 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
       // Ressources
       _nbRessourcesToLoad = getNbRessourcesToLoad(),
       _picGround,
+      _picGroundNight,
       _parallaxGround,
       _picPipe,
       _picBG = new Array();
@@ -118,9 +119,9 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
 
     // Last but not least, draw ground
     if (pipes)
-      _parallaxGround.draw(ctx, ellapsedTime);
+      _parallaxGround.draw(ctx, ellapsedTime, isNight);
     else
-      _parallaxGround.draw(ctx, 0);
+      _parallaxGround.draw(ctx, 0, isNight);
   };
 
     that.resetForNewGame = function () {
@@ -130,9 +131,10 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
     for (i = 0; i < nb; i++) {
       _picBG[i].resetToDayCycle();
     };
+    _parallaxGround.resetToDayCycle();
   };
 
-  that.loadRessources = function (onReadyCallback) {
+  that.loadRessources = function (onReadyCallback, isNight) {
     var bird,
         dBg,
         nBg,
@@ -142,7 +144,11 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
     _picGround = new Image();
     _picGround.src = 'images/ground.png';
     _picGround.onload = function() { onRessourceLoaded(onReadyCallback); };
-    _parallaxGround = new Parallax(_picGround, null, 900, 96, Const.FLOOR_SPEED, 672, Const.SCREEN_WIDTH);
+    _picGroundNight = new Image();
+    _picGroundNight.src = 'images/ground_night.png';
+    _picGroundNight.onload = function() { onRessourceLoaded(onReadyCallback); };
+    _parallaxGround = new Parallax(_picGround, _picGroundNight, 900, 96, Const.FLOOR_SPEED, 672, Const.SCREEN_WIDTH);
+    _parallaxGround.resetToDayCycle();
 
     // Load pipe
     _picPipe = new Image();

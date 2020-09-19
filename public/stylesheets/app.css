@@ -127,7 +127,7 @@ canvas {
 #gs-ranking-box,
 #gs-highscores-box {
 	height: 300px;
-	width: 450px;
+	width: 600px;
 	margin: auto;
 
 	background-color: #DED793;
@@ -193,7 +193,7 @@ canvas {
 	list-style-type: none;
 	color: #463740;
 	font-size: 32px;
-	margin: 0 0 15px 10px;
+	margin: 0 0 15px 20px;
 
 	color: white;
 	text-shadow: 3px 0px 0px #40394A, 0px 3px 0px #40394A, -3px 0px 0px #40394A, 0px -3px 0px #40394A;

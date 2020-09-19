@@ -33,8 +33,10 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
     function draw(currentTime, ellapsedTime) {
 
         // If player score is > 15, night !!
-        if ((_gameState == enumState.OnGame) && (_playerManager.getCurrentPlayer().getScore() == 15))
+        if ((_gameState === enumState.OnGame) && ((_playerManager.getCurrentPlayer().getScore() % Const.NIGHT_CICLE) >= Const.NIGHT_CICLE / 2))
             _isNight = true;
+        else
+            _isNight = false;
 
         canvasPainter.draw(currentTime, ellapsedTime, _playerManager, _pipeList, _gameState, _isNight);
     }
@@ -431,5 +433,5 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
     canvasPainter.loadRessources(function () {
         console.log('Ressources loaded, connect to server...');
         startClient();
-    });
+    }, _isNight);
 });
