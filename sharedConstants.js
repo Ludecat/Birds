@@ -24,7 +24,7 @@ var constant = {
 
     BIRD_WIDTH: 42,
     BIRD_HEIGHT: 30,
-    BIRD_ALPHA: 0.2,
+    BIRD_ALPHA: 0.4,
     
     // Pipe constants
     PIPE_WIDTH: 100,

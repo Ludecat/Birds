@@ -118,9 +118,18 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
     // Draw birds !
     if (players) {
       nb = players.length;
+      let myPlayer = null;
       for (i = 0; i < nb; i++) {
-        players[i].draw(ctx, currentTime, _picBirds, gameState);
+        if(players[i]._isMe){
+          myPlayer = i; 
+        }
+        else {
+          players[i].draw(ctx, currentTime, _picBirds, gameState);
+        }
       };
+      if(myPlayer != null){
+        players[myPlayer].draw(ctx, currentTime, _picBirds, gameState);
+      }
     }
 
     // Draw score

@@ -117,12 +117,8 @@ Player.prototype.getPlayerObject = function () {
 };
 
 Player.prototype.preparePlayer = function (pos) {
-    
-    let posX = START_BIRD_POS_X + rng() * BOX_WIDTH;
-    let posY = START_BIRD_POS_Y + rng() * BOX_HEIGHT;
-
-    this._playerTinyObject.posY = posY;
-    this._playerTinyObject.posX = posX;
+    this._playerTinyObject.posY = START_BIRD_POS_Y + rng() * BOX_HEIGHT;
+    this._playerTinyObject.posX = START_BIRD_POS_X + rng() * BOX_WIDTH;
     /*
     var line,
         col,
