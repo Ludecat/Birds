@@ -1,10 +1,16 @@
 var Const = require('../sharedConstants').constant;
 
-function Pipe (lastPipePosX) {
+function Pipe (lastPipePosX, firstTime) {
+  const time = new Date().getTime();
+  
+  const maxTime = firstTime + Const.MIN_HEIGHT_AFTER_MILLISECONDS
+  const heightBetween = Const.HEIGHT_BETWEEN_PIPES + (Const.MIN_HEIGHT_BETWEEN_PIPES - Const.HEIGHT_BETWEEN_PIPES) * (time - firstTime) / (maxTime - firstTime);
+
   this._pipeTinyObject = {
-    id:   new Date().getTime(),
+    id:   time,
     posX: (lastPipePosX + Const.DISTANCE_BETWEEN_PIPES),
-    posY: Math.floor(Math.random() * ((Const.MAX_PIPE_HEIGHT - Const.HEIGHT_BETWEEN_PIPES)- Const.MIN_PIPE_HEIGHT + 1) + Const.MIN_PIPE_HEIGHT)
+    posY: Math.floor(Math.random() * ((Const.MAX_PIPE_HEIGHT - heightBetween)- Const.MIN_PIPE_HEIGHT + 1) + Const.MIN_PIPE_HEIGHT),
+    heightBetween
   };
 };
  

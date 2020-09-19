@@ -27,8 +27,10 @@ PipeManager.prototype.newPipe = function () {
 
   if (_pipeList.length > 0)
     lastPos = _pipeList[_pipeList.length - 1].getPipeObject().posX;
+  else
+    this.firstTime = new Date().getTime();
 
-  newPipe = new Pipe(lastPos);
+  newPipe = new Pipe(lastPos, this.firstTime);
   _pipeList.push(newPipe);
 
   return (newPipe);
