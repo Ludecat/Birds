@@ -30,7 +30,6 @@ define(['../../sharedConstants'], function (Const) {
 
         // Calc opacity
         this.calcOpacity(time, isNight);
-        console.log(this.nightOpacity);
 
         // While we don't completly fill the screen, draw a part of the bg
         while (drawPos < this.maxW) {

@@ -19,6 +19,7 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
 
     var _gameState = enumState.Login,
         _playerManager,
+        _highestScore = 0,
         _pipeList,
         _isCurrentPlayerReady = false,
         _userID = null,
@@ -33,12 +34,12 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
     function draw(currentTime, ellapsedTime) {
 
         // If player score is > 15, night !!
-        if ((_gameState === enumState.OnGame) && ((_playerManager.getCurrentPlayer().getScore() % Const.NIGHT_CICLE) >= Const.NIGHT_CICLE / 2))
+        if ((_gameState === enumState.OnGame) && ((_highestScore % Const.NIGHT_CICLE) >= Const.NIGHT_CICLE / 2))
             _isNight = true;
         else
             _isNight = false;
 
-        canvasPainter.draw(currentTime, ellapsedTime, _playerManager, _pipeList, _gameState, _isNight);
+        canvasPainter.draw(currentTime, ellapsedTime, _playerManager, _pipeList, _gameState, _isNight, _highestScore);
     }
 
     requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -177,6 +178,7 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         });
         _socket.on('game_loop_update', function (serverDatasUpdated) {
             _playerManager.updatePlayerListFromServer(serverDatasUpdated.players);
+            _highestScore = serverDatasUpdated.highestScore;
             _pipeList = serverDatasUpdated.pipes;
         });
         _socket.on('ranking', function (score) {
@@ -362,7 +364,7 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         switch (_gameState) {
             case enumState.WaitingRoom:
                 _isCurrentPlayerReady = !_isCurrentPlayerReady;
-                _socket.emit('change_ready_state', _isCurrentPlayerReady);
+                // _socket.emit('change_ready_state', _isCurrentPlayerReady);
                 _playerManager.getCurrentPlayer().updateReadyState(_isCurrentPlayerReady);
                 break;
             case enumState.OnGame:

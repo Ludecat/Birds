@@ -76,8 +76,18 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
     ctx.fillStyle = 'white';
     ctx.fillText(score, posX, SCORE_POS_Y);
   };
+  
+  function drawHighestScore (score) {
+    if(score != null) {
+      let posX = Const.SCREEN_WIDTH - (Const.SCREEN_WIDTH / 10);
+      let posY = (Const.SCREEN_HEIGHT / 10);
+      ctx.font = '40px mini_pixel';
+      ctx.fillStyle = 'white';
+      ctx.fillText(score, posX, posY);
+    }
+  };
 
-  that.draw = function (currentTime, ellapsedTime, playerManager, pipes, gameState, isNight) {
+  that.draw = function (currentTime, ellapsedTime, playerManager, pipes, gameState, isNight, highestScore) {
     var nb,
         i,
         players = playerManager.getPlayers();
@@ -114,14 +124,16 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
     }
 
     // Draw score
-    if (gameState == 2)
+    if (gameState == 2) {
       drawScore(playerManager.getCurrentPlayer().getScore());
+      drawHighestScore(highestScore);
+    }
 
     // Last but not least, draw ground
     if (pipes)
       _parallaxGround.draw(ctx, ellapsedTime, isNight);
     else
-      _parallaxGround.draw(ctx, 0, isNight);
+      _parallaxGround.draw(ctx, 0, false);
   };
 
     that.resetForNewGame = function () {

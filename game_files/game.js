@@ -158,6 +158,7 @@ function startGameLoop() {
         // Notify players
         io.sockets.emit('game_loop_update', {
             players: _playersManager.getOnGamePlayerList(),
+            highestScore: _playersManager.getHighestRoundScore(),
             pipes: _pipeManager.getPipeList()
         });
 

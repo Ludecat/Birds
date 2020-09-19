@@ -12,6 +12,7 @@ var _playersList  = new Array(),
 
 function PlayersManager () {
   EventEmitter.call(this);
+  this.highestScoreThisRound = 0;
 }
 
 util.inherits(PlayersManager, EventEmitter);
@@ -145,6 +146,8 @@ PlayersManager.prototype.resetPlayersForNewGame = function () {
     updatedList.push(_playersList[i].getPlayerObject());
   };
 
+  this.highestScoreThisRound = 0;
+  
   return (updatedList);
 };
 
@@ -181,5 +184,17 @@ PlayersManager.prototype.prepareNewPlayer = function (player, nickname) {
   player.preparePlayer(_posOnGrid++);
 };
 
+PlayersManager.prototype.setHighestRoundScore = function (score) {
+  if(this.highestScoreThisRound < score){
+    this.highestScoreThisRound = score;
+  }
+}
+
+PlayersManager.prototype.getHighestRoundScore = function () {
+  for(let p of _playersList){
+    this.setHighestRoundScore(p.getScore());
+  }
+  return this.highestScoreThisRound;
+}
 
 module.exports = PlayersManager;
