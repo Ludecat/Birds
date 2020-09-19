@@ -112,7 +112,7 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
 
     // Last but not least, draw ground
     if (pipes)
-      _parallaxGround.draw(ctx, currentTime);
+      _parallaxGround.draw(ctx, ellapsedTime);
     else
       _parallaxGround.draw(ctx, 0);
   };
@@ -136,7 +136,7 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
     _picGround = new Image();
     _picGround.src = 'images/ground.png';
     _picGround.onload = function() { onRessourceLoaded(onReadyCallback); };
-    _parallaxGround = new Parallax(_picGround, null, 900, 96, Const.LEVEL_SPEED, 672, Const.SCREEN_WIDTH);
+    _parallaxGround = new Parallax(_picGround, null, 900, 96, Const.FLOOR_SPEED, 672, Const.SCREEN_WIDTH);
 
     // Load pipe
     _picPipe = new Image();
