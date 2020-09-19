@@ -1,12 +1,14 @@
 var enums = require('./enums'),
     Const = require('../sharedConstants').constant;
 
+var seedrandom = require('seedrandom');
+var rng = seedrandom('ludecat');
+
 // Defines
-var MAX_BIRDS_IN_A_ROW = 10;
 var START_BIRD_POS_X = 60;
-var SPACE_BETWEEN_BIRDS_X = 40;
+var BOX_WIDTH = 300;
 var START_BIRD_POS_Y = 80;
-var SPACE_BETWEEN_BIRDS_Y = 40;
+var BOX_HEIGHT = 300;
 var GRAVITY_SPEED = 0.05;
 var JUMP_SPEED = -0.6;
 var MAX_ROTATION = -10;
@@ -115,17 +117,26 @@ Player.prototype.getPlayerObject = function () {
 };
 
 Player.prototype.preparePlayer = function (pos) {
+    
+    let posX = START_BIRD_POS_X + rng() * BOX_WIDTH;
+    let posY = START_BIRD_POS_Y + rng() * BOX_HEIGHT;
+
+    this._playerTinyObject.posY = posY;
+    this._playerTinyObject.posX = posX;
+    /*
     var line,
         col,
         randomMoveX;
 
+    
     // Place bird on the departure grid
     line = Math.floor(pos / MAX_BIRDS_IN_A_ROW);
     col = Math.floor(pos % MAX_BIRDS_IN_A_ROW);
     randomMoveX = Math.floor(Math.random() * (SPACE_BETWEEN_BIRDS_X / 2 + 1));
     this._playerTinyObject.posY = START_BIRD_POS_Y + line * SPACE_BETWEEN_BIRDS_Y;
     this._playerTinyObject.posX = START_BIRD_POS_X + col * SPACE_BETWEEN_BIRDS_X + randomMoveX;
-
+*/
+    
     // Reset usefull values
     this._speedY = 0;
     this._rank = 0;
