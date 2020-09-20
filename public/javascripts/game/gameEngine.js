@@ -176,7 +176,8 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         _socket.on('update_game_state', function (gameState) {
             changeGameState(gameState);
         });
-        _socket.on('game_loop_update', function (serverDatasUpdated) {
+        _socket.on('game_loop_update', function (binaryData) {
+            let serverDatasUpdated = msgpack.deserialize(binaryData.buffer.data);
             _playerManager.updatePlayerListFromServer(serverDatasUpdated.players);
             _highestScore = serverDatasUpdated.highestScore;
             _pipeList = serverDatasUpdated.pipes;

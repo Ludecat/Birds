@@ -7,6 +7,7 @@
     "start-local": "node server.js --local"
   },
   "dependencies": {
+    "@ygoe/msgpack": "^1.0.2",
     "express": "3.4.8",
     "google-spreadsheet": "^3.0.13",
     "googleapis": "^39.2.0",

@@ -105,10 +105,14 @@ PlayersManager.prototype.getOnGamePlayerList = function (full = false) {
 
   for (i = 0; i < nbPlayers; i++) {
     if ((_playersList[i].getState() === enums.PlayerState.Playing) || (_playersList[i].getState() === enums.PlayerState.Died)) {
-      players.push(_playersList[i].getReducedPlayerObject());
       playersFull.push(_playersList[i].getPlayerObject());
+      if(full) continue;
+      
       if((_playersList[i].getState() === enums.PlayerState.Died)){
         deadP++;
+      }
+      else {
+        players.push(_playersList[i].getReducedPlayerObject());
       }
     }
   };

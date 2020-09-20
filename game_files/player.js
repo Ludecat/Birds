@@ -119,6 +119,7 @@ Player.prototype.getPlayerObject = function () {
 Player.prototype.getReducedPlayerObject = function () {
     return {
         id: this._playerTinyObject.id,
+        score: this._playerTinyObject.score,
         rotation: this._playerTinyObject.rotation,
         posX: this._playerTinyObject.posX,
         posY: this._playerTinyObject.posY

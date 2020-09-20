@@ -3,6 +3,7 @@ var PlayersManager = require('./playersManager'),
     CollisionEngine = require('./collisionEngine'),
     enums = require('./enums'),
     Const = require('../sharedConstants').constant;
+var msgpack = require('@ygoe/msgpack');
 
 var _playersManager,
     _pipeManager,
@@ -11,6 +12,7 @@ var _playersManager,
     _timeStartGame,
     _lastTime = null,
     _firstFrame = true;
+
 
 var performanceNow = require("performance-now");
 
@@ -158,21 +160,25 @@ function startGameLoop() {
             }
         }
 
-        var start = performanceNow();
-        
+        //var start2 = performanceNow();
+
         const updateData = {
             players: _playersManager.getOnGamePlayerList(_firstFrame),
             highestScore: _playersManager.getHighestRoundScore(),
             pipes: _pipeManager.getPipeList()
         };
         
-        // Notify players
-        io.sockets.emit('game_loop_update', updateData);
+        const binaryData = msgpack.serialize(updateData);
 
+        //var end2 = performanceNow();
+        //console.log("msgpack:" + (end2 - start2).toFixed(3));
+        //var start = performanceNow();
+
+        // Notify players
+        io.sockets.emit('game_loop_update', {buffer : new Buffer(binaryData)});
         
-        var end = performanceNow();
-        
-        console.log((end - start).toFixed(3));
+        //var end = performanceNow();
+        //console.log("sockets.emit:" + (end - start).toFixed(3));
 
         _firstFrame = false;
         
