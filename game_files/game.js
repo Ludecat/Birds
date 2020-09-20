@@ -9,8 +9,10 @@ var _playersManager,
     io,
     _gameState,
     _timeStartGame,
-    _lastTime = null;
+    _lastTime = null,
+    _firstFrame = true;
 
+var performanceNow = require("performance-now");
 
 function playerLog(socket, nick) {
     // Retreive PlayerInstance
@@ -93,6 +95,7 @@ function createNewGame() {
 
     // Notify players of the new game state
     updateGameState(enums.ServerState.WaitingForPlayers, true);
+    _firstFrame = true;
 };
 
 function gameOver() {
@@ -121,7 +124,7 @@ function startGameLoop() {
 
     // Create the first pipe
     _pipeManager.newPipe();
-
+    
     // Start timer
     _timer = setInterval(function () {
         var now = new Date().getTime(),
@@ -149,19 +152,30 @@ function startGameLoop() {
         _pipeManager.updatePipes(ellapsedTime);
 
         // Check collisions
-        if (CollisionEngine.checkCollision(_pipeManager.getPotentialPipeHit(), _playersManager.getPlayerList(enums.PlayerState.Playing)) == true) {
-            if (_playersManager.arePlayersStillAlive() == false) {
+        if (CollisionEngine.checkCollision(_pipeManager.getPotentialPipeHit(), _playersManager.getPlayerList(enums.PlayerState.Playing)) === true) {
+            if (_playersManager.arePlayersStillAlive() === false) {
                 gameOver();
             }
         }
 
-        // Notify players
-        io.sockets.emit('game_loop_update', {
-            players: _playersManager.getOnGamePlayerList(),
+        var start = performanceNow();
+        
+        const updateData = {
+            players: _playersManager.getOnGamePlayerList(_firstFrame),
             highestScore: _playersManager.getHighestRoundScore(),
             pipes: _pipeManager.getPipeList()
-        });
+        };
+        
+        // Notify players
+        io.sockets.emit('game_loop_update', updateData);
 
+        
+        var end = performanceNow();
+        
+        console.log((end - start).toFixed(3));
+
+        _firstFrame = false;
+        
     }, 1000 / 60);
 }
 

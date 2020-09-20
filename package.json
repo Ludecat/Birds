@@ -13,6 +13,7 @@
     "jade": "*",
     "mysql": "*",
     "node-cron": "^2.0.3",
+    "performance-now": "^2.1.0",
     "seedrandom": "^3.0.5",
     "socket.io": "~0.9"
   }

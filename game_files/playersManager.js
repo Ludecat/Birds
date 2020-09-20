@@ -4,7 +4,7 @@ var util          = require('util'),
     Player        = require('./player'),
     enums         = require('./enums');
 
-var NB_AVAILABLE_BIRDS_COLOR = 4;
+var NB_AVAILABLE_BIRDS_COLOR = 10;
 
 var _playersList  = new Array(),
     _posOnGrid    = 0,
@@ -13,6 +13,7 @@ var _playersList  = new Array(),
 function PlayersManager () {
   EventEmitter.call(this);
   this.highestScoreThisRound = 0;
+  this.deadPlayersTotal = -1;
 }
 
 util.inherits(PlayersManager, EventEmitter);
@@ -95,15 +96,27 @@ PlayersManager.prototype.getPlayerList = function (specificState) {
   return (players);
 }
 
-PlayersManager.prototype.getOnGamePlayerList = function () {
+PlayersManager.prototype.getOnGamePlayerList = function (full = false) {
   var players = new Array(),
+      playersFull = new Array(),
       nbPlayers = _playersList.length,
       i;
+  let deadP = 0;
 
   for (i = 0; i < nbPlayers; i++) {
-    if ((_playersList[i].getState() == enums.PlayerState.Playing) || (_playersList[i].getState() == enums.PlayerState.Died))
-      players.push(_playersList[i].getPlayerObject());
+    if ((_playersList[i].getState() === enums.PlayerState.Playing) || (_playersList[i].getState() === enums.PlayerState.Died)) {
+      players.push(_playersList[i].getReducedPlayerObject());
+      playersFull.push(_playersList[i].getPlayerObject());
+      if((_playersList[i].getState() === enums.PlayerState.Died)){
+        deadP++;
+      }
+    }
   };
+  
+  if(full || deadP > this.deadPlayersTotal){
+    this.deadPlayersTotal = deadP;
+    return (playersFull);
+  }
 
   return (players);
 }

@@ -116,6 +116,15 @@ Player.prototype.getPlayerObject = function () {
     return (this._playerTinyObject);
 };
 
+Player.prototype.getReducedPlayerObject = function () {
+    return {
+        id: this._playerTinyObject.id,
+        rotation: this._playerTinyObject.rotation,
+        posX: this._playerTinyObject.posX,
+        posY: this._playerTinyObject.posY
+    };
+};
+
 Player.prototype.preparePlayer = function (pos) {
     this._playerTinyObject.posY = START_BIRD_POS_Y + rng() * BOX_HEIGHT;
     this._playerTinyObject.posX = START_BIRD_POS_X + rng() * BOX_WIDTH;

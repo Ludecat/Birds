@@ -74,7 +74,7 @@ define(['../../sharedConstants'], function (Const) {
     };
 
     Player.prototype.updateFromServer = function (infos) {
-      this._serverInfos = infos;
+      this._serverInfos = {...this._serverInfos, ...infos};
     };
 
     Player.prototype.isCurrentPlayer = function () {
