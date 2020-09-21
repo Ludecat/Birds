@@ -9,11 +9,11 @@ var START_BIRD_POS_X = 60;
 var BOX_WIDTH = 300;
 var START_BIRD_POS_Y = 80;
 var BOX_HEIGHT = 300;
-var GRAVITY_SPEED = 0.05;
+var GRAVITY_SPEED = 0.003125;
 var JUMP_SPEED = -0.6;
 var MAX_ROTATION = -10;
 var MIN_ROTATION = 60;
-var ROTATION_SPEED = 8;
+var ROTATION_SPEED = 0.5;
 
 
 function Player(socket, uid, color) {
@@ -40,7 +40,7 @@ Player.prototype.update = function (timeLapse) {
     // If player is still alive, update its Y position
     if (this._playerTinyObject.state == enums.PlayerState.Playing) {
         // calc now Y pos
-        this._speedY += GRAVITY_SPEED;
+        this._speedY += timeLapse * GRAVITY_SPEED;
         this._playerTinyObject.posY += Math.round(timeLapse * this._speedY);
         
         if(Const.BOT_DEBUG){ // TODO: ATTENTION!!!!!!
@@ -51,7 +51,7 @@ Player.prototype.update = function (timeLapse) {
         }
 
         // Calc rotation
-        this._playerTinyObject.rotation += Math.round(this._speedY * ROTATION_SPEED);
+        this._playerTinyObject.rotation += Math.round(this._speedY * ROTATION_SPEED * timeLapse);
         if (this._playerTinyObject.rotation > MIN_ROTATION)
             this._playerTinyObject.rotation = MIN_ROTATION;
     }
