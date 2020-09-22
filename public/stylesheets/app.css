@@ -168,13 +168,12 @@ canvas {
 
 .gs-ranking-panel {
 	float: left;
-	width: 34%;
+	width: 100%;
 	height: 100%;
-	padding: 2% 8%;
 }
 
 .gs-ranking-panel:last-child {
-	text-align: right;
+	text-align: center;
 }
 .gs-ranking-panel:last-child:after {
 	clear: both;

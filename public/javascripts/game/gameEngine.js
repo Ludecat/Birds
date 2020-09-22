@@ -243,29 +243,14 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
     }
 
     function displayRanking(score) {
-        var nodeMedal = document.querySelector('.gs-ranking-medal'),
-            nodeHS = document.getElementById('gs-highscores-scores'),
-            i, nbHs;
+        var nodeHS = document.getElementById('gs-highscores-scores'), i, nbHs;
 
         console.log(score);
 
-        // Remove previous medals just in case
-        nodeMedal.classList.remove('third');
-        nodeMedal.classList.remove('second');
-        nodeMedal.classList.remove('winner');
-
         // Display scores
         document.getElementById('gs-ranking-score').innerHTML = score.score;
-        document.getElementById('gs-ranking-best').innerHTML = score.bestScore;
+        //document.getElementById('gs-ranking-best').innerHTML = score.bestScore;
         document.getElementById('gs-ranking-pos').innerHTML = score.rank + ' / ' + score.nbPlayers;
-
-        // Set medal !
-        if (score.rank == 1)
-            nodeMedal.classList.add('winner');
-        else if (score.rank == 2)
-            nodeMedal.classList.add('second');
-        else if (score.rank == 3)
-            nodeMedal.classList.add('third');
 
         // Display hish scores
         nodeHS.innerHTML = '';
