@@ -257,9 +257,14 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         nbHs = score.highscores.length;
         score.highscores.sort(function(a, b){return b.score-a.score});
         for (i = 0; i < nbHs; i++) {
-            nodeHS.innerHTML += '<li><span>#' + (i + 1) + '</span> ' + score.highscores[i].player + ' <strong>' + score.highscores[i].score + '</strong></li>';
-        }
-        ;
+            //Highlight own score in socreboard
+            if(sessionStorage.getItem('playerName') === score.highscores[i].player){
+                nodeHS.innerHTML += '<li style="color:rgb(73, 142, 252);"><span>#' + (i + 1) + '</span> ' + score.highscores[i].player + ' <strong>' + score.highscores[i].score + '</strong></li>';
+            }else{
+                nodeHS.innerHTML += '<li><span>#' + (i + 1) + '</span> ' + score.highscores[i].player + ' <strong>' + score.highscores[i].score + '</strong></li>';
+            }
+            
+        };
 
         // Show ranking
         showHideMenu(enumPanels.Ranking, true);
