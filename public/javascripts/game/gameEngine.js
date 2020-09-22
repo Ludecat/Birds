@@ -270,6 +270,7 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         // Display hish scores
         nodeHS.innerHTML = '';
         nbHs = score.highscores.length;
+        score.highscores.sort(function(a, b){return b.score-a.score});
         for (i = 0; i < nbHs; i++) {
             nodeHS.innerHTML += '<li><span>#' + (i + 1) + '</span> ' + score.highscores[i].player + ' <strong>' + score.highscores[i].score + '</strong></li>';
         }
