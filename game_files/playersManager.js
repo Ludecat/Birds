@@ -192,6 +192,10 @@ PlayersManager.prototype.sendPlayerScore = function () {
   _scores.sendHighscore();
 };
 
+PlayersManager.prototype.resetPlayerScores = function () {
+  _scores.reset(_playersList);
+}
+
 PlayersManager.prototype.prepareNewPlayer = function (player, nickname) {
   // Set his nickname
   player.setNick(nickname);

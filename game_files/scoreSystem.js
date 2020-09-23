@@ -1,5 +1,4 @@
 var Const = require('../sharedConstants').constant;
-const creds = require('../client_secret.json');
 const fetch = require("node-fetch")
 const fetch_secrets = require('../fetch_secret.json')
 const cron = require('node-cron');
@@ -50,12 +49,6 @@ function ScoreSystem() {
             testConnection.end();
         }
     });
-
-    /*if(Const.SPREADSHEET_SYNC_ENABLED) {
-        cron.schedule(Const.SPREADSHEET_CRONTIMER, () => {
-            this.sendHighscore();
-        });
-    }*/ // Note SA: score is send after each game now
 };
 
 function openConnection() {
@@ -231,6 +224,18 @@ async function sendScores(scoreMap) {
 
 ScoreSystem.prototype.sendHighscore = function () {
     sendScores(this._bestScore).then(r => console.log('score sent'));
+};
+
+ScoreSystem.prototype.reset = function (playerList) {
+    var nbPlayers = playerList.length,
+        i;
+
+    // Send score to the players
+    for (i = 0; i < nbPlayers; i++) {
+      playerList[i].setBestScore(0);
+    };
+
+    this._bestScore = [];
 };
 
 module.exports = ScoreSystem;

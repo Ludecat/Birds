@@ -42,6 +42,10 @@ function playerLog(socket, nick) {
                 io.sockets.emit('game_will_start');
               }
             });
+            socket.on('force_reset_score', function () {
+              _playersManager.resetPlayerScores();
+              console.info("Scores reset");
+            });
 
             // Set player's nickname and prepare him for the next game
             _playersManager.prepareNewPlayer(player, nick);
@@ -197,9 +201,7 @@ exports.startServer = function () {
 
     // Create playersManager instance and register events
     _playersManager = new PlayersManager();
-    /*_playersManager.on('players-ready', function () {
-      startGameLoop();
-    });*/ // Note SA: Now starting after set amount of time
+
 
     // Create pipe manager and bind event
     _pipeManager = new PipeManager();

@@ -219,9 +219,11 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
                 } else if (event.keyCode == 18) { // Alt
                     _isCtrlDown = true;
                 }
-                if (event.keyCode == 83) { // S
-                    if (_isAltDown && _isCtrlDown) {
+                if (_isAltDown && _isCtrlDown) {
+                    if (event.keyCode == 83) { // S
                         startGameInput();
+                    } else if (event.keyCode == 82) { // R
+                        resetScoreInput();
                     }
                 }
             });
@@ -371,6 +373,12 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         if (_gameState == enumState.WaitingRoom) {
           _socket.emit('force_start_game');
         }
+    }
+
+    function resetScoreInput() {
+        if (_gameState == enumState.WaitingRoom) {
+            _socket.emit('force_reset_score');
+          }
     }
 
     function showHideMenu(panelName, isShow) {

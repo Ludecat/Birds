@@ -36,10 +36,6 @@ var constant = {
     MIN_HEIGHT_AFTER_MILLISECONDS: 60 * 1000,
     
     SPREADSHEET_SYNC_ENABLED: !runLocal,
-    SPREADSHEET_ID: '1TwSQAIEH2RY4TfgcmipEDBjY2NRSBUBIDLPxpqo6hww',
-    SPREADSHEET_TITLE: 'Flappybird Scoreboard',
-    SPREADSHEET_CRONTIMER: '1 * * * *',
-    TOKEN_PATH: 'token.json'
 };
 
 // To be use by the server part, we have to provide the object with exports
