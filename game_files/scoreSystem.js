@@ -1,6 +1,7 @@
 var Const = require('../sharedConstants').constant;
-const {GoogleSpreadsheet} = require('google-spreadsheet');
 const creds = require('../client_secret.json');
+const fetch = require("node-fetch")
+const fetch_secrets = require('../fetch_secret.json')
 const cron = require('node-cron');
 
 var MySQL = require('mysql');
@@ -50,11 +51,11 @@ function ScoreSystem() {
         }
     });
 
-    if(Const.SPREADSHEET_SYNC_ENABLED) {
+    /*if(Const.SPREADSHEET_SYNC_ENABLED) {
         cron.schedule(Const.SPREADSHEET_CRONTIMER, () => {
             this.sendHighscore();
         });
-    }
+    }*/ // Note SA: score is send after each game now
 };
 
 function openConnection() {
@@ -205,36 +206,31 @@ ScoreSystem.prototype.getHighScores = function (callback) {
 };
 
 async function sendScores(scoreMap) {
-    const doc = new GoogleSpreadsheet(Const.SPREADSHEET_ID);
-    // Authentication
-    await doc.useServiceAccountAuth(creds);
-    await doc.loadInfo();
-    let dateObj = new Date(Date.now());
-    let lastSync = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()} ${dateObj.getHours()}:${dateObj.getMinutes()}:${dateObj.getSeconds()}`;
-    await doc.updateProperties({title: `${Const.SPREADSHEET_TITLE} - ${lastSync}`});
-
-    const sheet = doc.sheetsByIndex[0];
-    const rows = await sheet.getRows(); // can pass in { limit, offset }
-    
-    let i = 0;
+    let results = [];
     for (let key in scoreMap) {
-        if (i < rows.length) {
-            rows[i].name = key;
-            rows[i].score = scoreMap[key];
-            await rows[i].save(); // save updates
-        } else {
-            await sheet.addRow({name: key, score: scoreMap[key]});
-        }
-        i++;
+        let playerName = key;
+        let playerScore = scoreMap[key];
+        results.push({ player: playerName,
+                        points: playerScore})
     }
-    while (i < rows.length) { // clean unused rows
-        await rows[i].delete(); // save updates
-        i++;
-    }
+
+    console.info("Scores: " + JSON.stringify(results))
+
+    fetch(fetch_secrets.sheetUrl, {
+        method: 'POST',
+        headers: {
+            Authorization: fetch_secrets.bearer,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            game: 'Flappybird',
+            result: results
+        })
+    })
 }
 
 ScoreSystem.prototype.sendHighscore = function () {
-    sendScores(this._bestScore).then(r => console.log('score send'));
+    sendScores(this._bestScore).then(r => console.log('score sent'));
 };
 
 module.exports = ScoreSystem;

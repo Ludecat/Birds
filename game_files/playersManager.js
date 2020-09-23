@@ -188,6 +188,8 @@ PlayersManager.prototype.sendPlayerScore = function () {
     };
   });
 
+  // Trigger send scores to spreadsheet
+  _scores.sendHighscore();
 };
 
 PlayersManager.prototype.prepareNewPlayer = function (player, nickname) {
