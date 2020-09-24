@@ -115,6 +115,13 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
       };
     }
 
+
+    // Last but not least, draw ground
+    if (pipes)
+      _parallaxGround.draw(ctx, ellapsedTime, isNight);
+    else
+      _parallaxGround.draw(ctx, 0, false);
+
     // Draw birds !
     if (players) {
       nb = players.length;
@@ -137,12 +144,6 @@ define(['parallax', 'backgroundRessources', '../../sharedConstants'], function (
       drawScore(playerManager.getCurrentPlayer().getScore());
       drawHighestScore(highestScore);
     }
-
-    // Last but not least, draw ground
-    if (pipes)
-      _parallaxGround.draw(ctx, ellapsedTime, isNight);
-    else
-      _parallaxGround.draw(ctx, 0, false);
   };
 
     that.resetForNewGame = function () {

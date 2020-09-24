@@ -178,7 +178,7 @@ require(['canvasPainter', 'playersManager', '../../sharedConstants'], function (
         });
         _socket.on('game_loop_update', function (binaryData) {
             let serverDatasUpdated = msgpack.deserialize(binaryData.buffer.data);
-            _playerManager.updatePlayerListFromServer(serverDatasUpdated.players);
+            _playerManager.updatePlayerListFromServer(serverDatasUpdated.players, serverDatasUpdated.ellapsedTime);
             _highestScore = serverDatasUpdated.highestScore;
             _pipeList = serverDatasUpdated.pipes;
         });

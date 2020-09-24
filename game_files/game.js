@@ -169,6 +169,7 @@ function startGameLoop() {
         const updateData = {
             players: _playersManager.getOnGamePlayerList(_firstFrame),
             highestScore: _playersManager.getHighestRoundScore(),
+            ellapsedTime,
             pipes: _pipeManager.getPipeList()
         };
         
@@ -186,7 +187,7 @@ function startGameLoop() {
 
         _firstFrame = false;
         
-    }, 1000 / 45);
+    }, 1000 / Const.TICK_PER_SECONDS);
 }
 
 

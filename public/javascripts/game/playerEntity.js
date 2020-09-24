@@ -39,6 +39,8 @@ define(['../../sharedConstants'], function (Const) {
       }
       else {
 
+        if(this._serverInfos.posX < 0) return ;
+
         // First of all, save context. 
         ctx.save();
         

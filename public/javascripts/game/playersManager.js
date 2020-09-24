@@ -1,7 +1,7 @@
 /*
 *   Represent a player. Can  
 */
-define(['playerEntity'], function (Player) {
+define(['playerEntity', '../../sharedConstants'], function (Player, Const) {
 
   var _playerList,
       _keyMatching,
@@ -62,13 +62,20 @@ define(['playerEntity'], function (Player) {
   
   };
 
-  PlayerManager.prototype.updatePlayerListFromServer = function (playerlistUpdated) {
+  PlayerManager.prototype.updatePlayerListFromServer = function (playerlistUpdated, ellapsedTime) {
     var nbUpdates = playerlistUpdated.length,
         i;
 
     for (i = 0; i < nbUpdates; i++) {
       _playerList[(_keyMatching[playerlistUpdated[i].id])].updateFromServer(playerlistUpdated[i]);
-    };
+    }
+    
+    for(let k in _playerList){
+      if(_playerList[k]._serverInfos.state === 4 && _playerList[k]._serverInfos.posX > -50){
+          _playerList[k]._serverInfos.posX -= Const.LEVEL_SPEED * ellapsedTime;
+      }
+    }
+    
   };
 
   PlayerManager.prototype.getPlayers = function () {

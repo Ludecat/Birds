@@ -209,17 +209,19 @@ async function sendScores(scoreMap) {
 
     console.info("Scores: " + JSON.stringify(results))
 
-    fetch(fetch_secrets.sheetUrl, {
-        method: 'POST',
-        headers: {
-            Authorization: fetch_secrets.bearer,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            game: 'Flappybird',
-            result: results
+    if(!Const.LOCALHOST) {
+        fetch(fetch_secrets.sheetUrl, {
+            method: 'POST',
+            headers: {
+                Authorization: fetch_secrets.bearer,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                game: 'Flappybird',
+                result: results
+            })
         })
-    })
+    }
 }
 
 ScoreSystem.prototype.sendHighscore = function () {
