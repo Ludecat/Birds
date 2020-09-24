@@ -6,7 +6,7 @@ var constant = {
     SERVER_PORT: runLocal ? 3000 : 10011,
     SOCKET_PORT: runLocal ? 3001 : 10012,
     SOCKET_PORT_PUBLIC: runLocal ? 3001 : 443,
-    SOCKET_ADDR: runLocal ? 'http://localhost' : 'https://io-games.lude.cat',
+    SOCKET_ADDR: runLocal ? 'http://localhost' : 'https://games.ludecat.io',
     SOCKET_PATH: runLocal ? '' : '/flappybird',
     LOCALHOST: runLocal,
     BOT_DEBUG: true,
